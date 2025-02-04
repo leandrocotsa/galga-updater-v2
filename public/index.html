@@ -204,57 +204,47 @@
         }); */
 
         document.getElementById('saveCanvasButton').addEventListener('click', function() {
-        // Convert the canvas to image (PNG) data URL
-        const dataURL = canvas.toDataURL({
-            format: 'png', 
-            width: 800, 
-            height: 480
-        });
+    // Convert the canvas to image (JPEG) data URL
+    const dataURL = canvas.toDataURL('image/jpeg', 0.9); // Convert to JPEG with 90% quality
 
-        // Create an image element and set its source to the data URL
-        const image = new Image();
-        image.src = dataURL;
+    // Extract base64 data
+    const canvasData = dataURL.split(',')[1]; 
+    const byteCharacters = atob(canvasData); // Decode base64
+    const byteArrays = [];
 
-        // Once the image is loaded, send it to the server
-        image.onload = function() {
-            // Convert the image to a blob
-            const canvasData = canvas.toDataURL('image/png').split(',')[1]; // Get base64 data
-            const byteCharacters = atob(canvasData); // Decode base64
-            const byteArrays = [];
+    // Convert base64 to a binary array
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+        const slice = byteCharacters.slice(offset, offset + 512);
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+        byteArrays.push(new Uint8Array(byteNumbers));
+    }
 
-            // Convert base64 to a binary array
-            for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-                const slice = byteCharacters.slice(offset, offset + 512);
-                const byteNumbers = new Array(slice.length);
-                for (let i = 0; i < slice.length; i++) {
-                    byteNumbers[i] = slice.charCodeAt(i);
-                }
-                byteArrays.push(new Uint8Array(byteNumbers));
-            }
+    // Create a Blob from the binary data
+    const blob = new Blob(byteArrays, { type: 'image/jpeg' });
 
-            // Create a Blob from the binary data
-            const blob = new Blob(byteArrays, { type: 'image/png' });
+    // Create FormData to send the image via POST request
+    const formData = new FormData();
+    formData.append('image', blob, 'image.jpg'); // Save as JPEG
 
-            // Create FormData to send the image via POST request
-            const formData = new FormData();
-            formData.append('image', blob, 'image.png');
-
-            // Send image to the /send-image endpoint
-            fetch('/send-image', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log('Image sent:', data);
-                alert('Image sent to MQTT!');
-            })
-            .catch(error => {
-                console.error('Error sending image:', error);
-                alert('Failed to send image.');
-            });
-        };
+    // Send image to the /send-image endpoint
+    fetch('/send-image', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        console.log('Image sent:', data);
+        alert('Image sent to MQTT!');
+    })
+    .catch(error => {
+        console.error('Error sending image:', error);
+        alert('Failed to send image.');
     });
+});
+
 
 
         document.getElementById('deleteObjectButton').addEventListener('click', function() {

@@ -4,6 +4,7 @@ const aedes = require('aedes')();
 const mqtt = require('mqtt');
 const net = require('net');
 const fs = require('fs');
+const multer = require('multer');
 
 const app = express();
 
@@ -28,28 +29,19 @@ app.get('/send', (req, res) => {
     });
 });
 
-app.post('/send-image', (req, res) => {
-    const chunks = [];
-    
-    // Listen to the incoming data from the request
-    req.on('data', chunk => {
-        chunks.push(chunk);
-    });
+const upload = multer({ storage: multer.memoryStorage() });
 
-    req.on('end', () => {
-        // Combine all the chunks and create a buffer from the image data
-        const imageBuffer = Buffer.concat(chunks);
+app.post('/send-image', upload.single('image'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No image uploaded');
+    }
 
-        // Publish the image data to the MQTT topic
-        aedes.publish({ topic: 'test/topic', payload: imageBuffer }, () => {
-            res.send('Image sent to MQTT topic!');
-            console.log(`sent image`);
-        });
-    });
+    const imageBuffer = req.file.buffer; // Get binary image data
 
-    req.on('error', (err) => {
-        console.error('Error receiving image:', err);
-        res.status(500).send('Error sending image.');
+    // Publish image via MQTT
+    aedes.publish({ topic: 'test/topic', payload: imageBuffer }, () => {
+        console.log(`Image sent via MQTT`);
+        res.send('Image sent to MQTT topic!');
     });
 });
 
