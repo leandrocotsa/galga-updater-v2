@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabric.js Responsive Canvas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            background-color: #222;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Logo Styling */
+        .logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px; /* Space between logo and title */
+        }
+
+        .logo img {
+            width: 180px; /* Adjust the size of the logo */
+            height: auto;
+        }
+
+        .title {
+            font-size: 36px;
+            font-weight: 400;
+            text-align: center;
+            margin: 10px 0 20px 0;
+        }
+
+        .canvas-container {
+            width: calc(100vw - 20px);
+            max-width: 800px;
+            aspect-ratio: 800 / 480;
+            background: #333;
+            border-radius: 10px;
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .controls {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input, select, button {
+            padding: 8px;
+            font-size: 14px;
+            border: none;
+            outline: none;
+            background: #444;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        input[type="color"] {
+            padding: 4px;
+            width: 40px;
+            height: 30px;
+        }
+
+        button {
+            cursor: pointer;
+            font-weight: 600;
+            background: #666;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #777;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo -->
+    <div class="logo">
+        <img src="/imgs/galga-logo.png" alt="Galga Logo">
+    </div>
+
+    <div class="title">Galga Updater v2</div>
+    <div class="controls">
+        <div>
+            <label>Add image: <input type="file" id="imageInput" accept="image/*"></label>
+        </div>
+        <div>
+            <input type="text" id="textInput" placeholder="Enter text">
+            <label>Text Color: <input type="color" id="textColorPicker" value="#ffffff"></label>
+            <label>Font:
+                <select id="fontSelector">
+                    <option value="Outfit">Outfit</option>
+                    <option value="Arial">Arial</option>
+                    <option value="Comic Sans MS">Comic Sans MS</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Verdana">Verdana</option>
+                </select>
+            </label>
+            <button id="addTextButton">Add Text</button>
+            <label>Background: <input type="color" id="bgColorPicker"></label>
+        </div>
+        <div>
+            <button id="deleteObjectButton">Delete Selected</button>
+            <button id="clearCanvasButton">Clear</button>
+        </div>
+        
+
+    <div class="canvas-container">
+        <canvas id="canvas" width="800" height="480"></canvas>
+    </div>
+    <button id="saveCanvasButton">Save</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
+    <script>
+        const canvas = new fabric.Canvas('canvas', {
+            backgroundColor: 'white' // Set default background to white
+        });
+        canvas.renderAll(); // Ensure the background is applied
+
+        function resizeCanvas() {
+            const container = document.querySelector(".canvas-container");
+            canvas.setDimensions({ width: container.clientWidth, height: container.clientWidth * (480 / 800) });
+        }
+
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+
+        function addImageToCanvas(imageURL) {
+            fabric.Image.fromURL(imageURL, function(img) {
+                const scaleFactor = Math.min(canvas.width / img.width, canvas.height / img.height);
+                img.set({
+                    left: (canvas.width - img.width * scaleFactor) / 2,
+                    top: (canvas.height - img.height * scaleFactor) / 2,
+                    scaleX: scaleFactor,
+                    scaleY: scaleFactor
+                });
+                canvas.add(img);
+            });
+        }
+
+        document.getElementById('imageInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    addImageToCanvas(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('addTextButton').addEventListener('click', function() {
+            const textValue = document.getElementById('textInput').value;
+            const textColor = document.getElementById('textColorPicker').value;
+            const fontFamily = document.getElementById('fontSelector').value;
+
+            if (textValue) {
+                const text = new fabric.Text(textValue, {
+                    left: 200,
+                    top: 200,
+                    fontSize: 30,
+                    fontFamily: fontFamily,
+                    fill: textColor
+                });
+                canvas.add(text);
+                document.getElementById('textInput').value = ''; 
+            }
+        });
+
+/*         document.getElementById('saveCanvasButton').addEventListener('click', function() {
+            // Get the current canvas dimensions (which reflect the resized canvas)
+            const canvasWidth = canvas.width;
+            const canvasHeight = canvas.height;
+
+            // Capture the entire canvas as it is displayed
+            const dataURL = canvas.toDataURL({ format: 'png', width: canvasWidth, height: canvasHeight });
+            
+            // Create a download link for the image
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'canvas-image.png';  // Set the download file name
+            link.click();  // Trigger the download
+        }); */
+
+        document.getElementById('saveCanvasButton').addEventListener('click', function() {
+        // Convert the canvas to image (PNG) data URL
+        const dataURL = canvas.toDataURL({
+            format: 'png', 
+            width: 800, 
+            height: 480
+        });
+
+        // Create an image element and set its source to the data URL
+        const image = new Image();
+        image.src = dataURL;
+
+        // Once the image is loaded, send it to the server
+        image.onload = function() {
+            // Convert the image to a blob
+            const canvasData = canvas.toDataURL('image/png').split(',')[1]; // Get base64 data
+            const byteCharacters = atob(canvasData); // Decode base64
+            const byteArrays = [];
+
+            // Convert base64 to a binary array
+            for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                const slice = byteCharacters.slice(offset, offset + 512);
+                const byteNumbers = new Array(slice.length);
+                for (let i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                byteArrays.push(new Uint8Array(byteNumbers));
+            }
+
+            // Create a Blob from the binary data
+            const blob = new Blob(byteArrays, { type: 'image/png' });
+
+            // Create FormData to send the image via POST request
+            const formData = new FormData();
+            formData.append('image', blob, 'image.png');
+
+            // Send image to the /send-image endpoint
+            fetch('/send-image', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Image sent:', data);
+                alert('Image sent to MQTT!');
+            })
+            .catch(error => {
+                console.error('Error sending image:', error);
+                alert('Failed to send image.');
+            });
+        };
+    });
+
+
+        document.getElementById('deleteObjectButton').addEventListener('click', function() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                canvas.remove(activeObject);
+            }
+        });
+
+        document.getElementById('clearCanvasButton').addEventListener('click', function() {
+            canvas.clear();
+            canvas.setBackgroundColor('', canvas.renderAll.bind(canvas));
+        });
+
+        document.getElementById('bgColorPicker').addEventListener('input', function(event) {
+            canvas.setBackgroundColor(event.target.value, canvas.renderAll.bind(canvas));
+        });
+    </script>
+</body>
+</html>
