@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const sharp = require('sharp');
 
 const app = express();
 
@@ -55,6 +56,8 @@ app.get('/latest-image', (req, res) => {
         res.sendFile(defaultImgPath);
     }
 });
+
+//this is returNing a png for some reason FIX THIS
 
 const PORT = 3000;
 app.listen(PORT, () => {

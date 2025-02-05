@@ -186,50 +186,34 @@
             }
         });
 
-/*         document.getElementById('saveCanvasButton').addEventListener('click', function() {
-            // Get the current canvas dimensions (which reflect the resized canvas)
-            const canvasWidth = canvas.width;
-            const canvasHeight = canvas.height;
-
-            // Capture the entire canvas as it is displayed
-            const dataURL = canvas.toDataURL({ format: 'png', width: canvasWidth, height: canvasHeight });
-            
-            // Create a download link for the image
-            const link = document.createElement('a');
-            link.href = dataURL;
-            link.download = 'canvas-image.png';  // Set the download file name
-            link.click();  // Trigger the download
-        }); */
-
         document.getElementById('saveCanvasButton').addEventListener('click', function() {
 
-    const dataURL = canvas.toDataURL('image/jpeg', 0.9); // 'image/jpeg' format with 90% quality
+            const dataURL = canvas.toDataURL({
+                format: 'jpeg',
+                quality: 1
+            }); // 'image/jpeg' format with 90% quality
 
-    // Convert the dataURL to a Blob
-    fetch(dataURL)
-        .then(res => res.blob())
-        .then(blob => {
-            const formData = new FormData();
-            formData.append('image', blob, 'image.jpg');
+            fetch(dataURL)
+                .then(res => res.blob())
+                .then(blob => {
+                    const formData = new FormData();
+                    formData.append('image', blob, 'image.jpg');
 
-            fetch('/send-image', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log('Image sent:', data);
-                alert('Image sent to the server!');
-            })
-            .catch(error => {
-                console.error('Error sending image:', error);
-                alert('Failed to send image.');
-            });
+                    fetch('/send-image', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log('Image sent:', data);
+                        alert('Image sent to the server!');
+                    })
+                    .catch(error => {
+                        console.error('Error sending image:', error);
+                        alert('Failed to send image.');
+                    });
+                });
         });
-});
-
-
-
 
         document.getElementById('deleteObjectButton').addEventListener('click', function() {
             const activeObject = canvas.getActiveObject();

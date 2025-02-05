@@ -1,0 +1,21 @@
+node_modules/
+.DS_Store
+# Ignore the virtual environment directory
+venv/
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+
+# VSCode settings
+.vscode/
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+
+# Environment variable files
+.env
