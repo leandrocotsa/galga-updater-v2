@@ -20,15 +20,14 @@
             overflow-x: hidden;
         }
 
-        /* Logo Styling */
         .logo {
             display: flex;
             justify-content: center;
-            margin-bottom: 10px; /* Space between logo and title */
+            margin-bottom: 10px;
         }
 
         .logo img {
-            width: 180px; /* Adjust the size of the logo */
+            width: 180px;
             height: auto;
         }
 
@@ -93,7 +92,6 @@
     </style>
 </head>
 <body>
-    <!-- Logo -->
     <div class="logo">
         <img src="/imgs/galga-logo.png" alt="Galga Logo">
     </div>
@@ -134,9 +132,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
     <script>
         const canvas = new fabric.Canvas('canvas', {
-            backgroundColor: 'white' // Set default background to white
+            backgroundColor: 'white'
         });
-        canvas.renderAll(); // Ensure the background is applied
+        canvas.renderAll();
 
         function resizeCanvas() {
             const container = document.querySelector(".canvas-container");
@@ -204,46 +202,32 @@
         }); */
 
         document.getElementById('saveCanvasButton').addEventListener('click', function() {
-    // Convert the canvas to image (JPEG) data URL
-    const dataURL = canvas.toDataURL('image/jpeg', 0.9); // Convert to JPEG with 90% quality
 
-    // Extract base64 data
-    const canvasData = dataURL.split(',')[1]; 
-    const byteCharacters = atob(canvasData); // Decode base64
-    const byteArrays = [];
+    const dataURL = canvas.toDataURL('image/jpeg', 0.9); // 'image/jpeg' format with 90% quality
 
-    // Convert base64 to a binary array
-    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-        const slice = byteCharacters.slice(offset, offset + 512);
-        const byteNumbers = new Array(slice.length);
-        for (let i = 0; i < slice.length; i++) {
-            byteNumbers[i] = slice.charCodeAt(i);
-        }
-        byteArrays.push(new Uint8Array(byteNumbers));
-    }
+    // Convert the dataURL to a Blob
+    fetch(dataURL)
+        .then(res => res.blob())
+        .then(blob => {
+            const formData = new FormData();
+            formData.append('image', blob, 'image.jpg');
 
-    // Create a Blob from the binary data
-    const blob = new Blob(byteArrays, { type: 'image/jpeg' });
-
-    // Create FormData to send the image via POST request
-    const formData = new FormData();
-    formData.append('image', blob, 'image.jpg'); // Save as JPEG
-
-    // Send image to the /send-image endpoint
-    fetch('/send-image', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log('Image sent:', data);
-        alert('Image sent to MQTT!');
-    })
-    .catch(error => {
-        console.error('Error sending image:', error);
-        alert('Failed to send image.');
-    });
+            fetch('/send-image', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Image sent:', data);
+                alert('Image sent to the server!');
+            })
+            .catch(error => {
+                console.error('Error sending image:', error);
+                alert('Failed to send image.');
+            });
+        });
 });
+
 
 
 
