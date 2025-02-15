@@ -27,7 +27,7 @@ def displayImage(image_path):
         os.system(f"open {image_path}")
     elif os_type == "Linux":
         print(f"This is {os_type}.")
-        os.system(f"feh --fullscreen {IMAGE_PATH} &")
+        subprocess.Popen(["feh", "--fullscreen", "--hide-pointer", "--borderless", "--auto-zoom", IMAGE_PATH])
     else:
          print(f"{os_type} not supported.")
     
