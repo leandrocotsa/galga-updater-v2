@@ -5,7 +5,7 @@ import hashlib
 import platform
 import subprocess
 
-SERVER_URL = "http://localhost:3000/latest-image"
+SERVER_URL = "https://galga-updater-v2.onrender.com/latest-image"
 IMAGE_PATH = "./latest-image.jpg" 
 
 def calculate_saved_image_hash(image_path):

