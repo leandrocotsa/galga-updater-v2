@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const sharp = require('sharp');
+require('dotenv').config(); // Load environment variables
 
 const app = express();
 
@@ -16,6 +17,20 @@ const defaultImgPath = path.join(__dirname, 'public/imgs', 'default-img.jpg');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
+
+// Load API Key from environment variable
+const API_KEY = process.env.API_KEY || 'your-secure-api-key';
+
+// Middleware to check API key
+const authenticateAPIKey = (req, res, next) => {
+    const apiKey = req.headers['x-api-key'];
+
+    if (!apiKey || apiKey !== API_KEY) {
+        return res.status(401).json({ error: 'Unauthorized: Invalid API Key' });
+    }
+    
+    next();
+};
 
 // Use Multer to handle file uploads
 const storage = multer.diskStorage({
@@ -33,20 +48,17 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-
 app.get('/form', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Endpoint to receive an image
-app.post('/send-image', upload.single('image'), (req, res) => {
+// Protect these endpoints with the API key middleware
+app.post('/send-image', authenticateAPIKey, upload.single('image'), (req, res) => {
     console.log('Image received and saved!');
     res.send('Image uploaded successfully');
 });
 
-// Endpoint to get the latest image
-app.get('/latest-image', (req, res) => {
-    
+app.get('/latest-image', authenticateAPIKey, (req, res) => {
     const imagePath = path.join(__dirname, 'uploads', 'latest-image.jpg');
     
     // Check if the image exists
@@ -56,8 +68,6 @@ app.get('/latest-image', (req, res) => {
         res.sendFile(defaultImgPath);
     }
 });
-
-//this is returNing a png for some reason FIX THIS
 
 const PORT = 3000;
 app.listen(PORT, () => {
