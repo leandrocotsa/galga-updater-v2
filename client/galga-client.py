@@ -8,16 +8,21 @@ import subprocess
 SERVER_URL = "https://galga-updater-v2.onrender.com/latest-image"
 IMAGE_PATH = "./latest-image.jpg" 
 
+# Fetch API key from the system environment variable
+API_KEY = os.getenv("API_KEY")
+
+if not API_KEY:
+    raise ValueError("API_KEY environment variable is not set.")
+
 def calculate_saved_image_hash(image_path):
     with open(image_path, "rb") as f:
         return hashlib.md5(f.read()).hexdigest()
     
 def first_display_image():
-        displayImage(IMAGE_PATH)
-        print("Displaying image for the first time.")
+    displayImage(IMAGE_PATH)
+    print("Displaying image for the first time.")
 
 def displayImage(image_path):
-
     print("Displaying image...")
     os_type = platform.system()
     if os_type == "Darwin":
@@ -29,13 +34,18 @@ def displayImage(image_path):
         print(f"This is {os_type}.")
         subprocess.Popen(["feh", "--fullscreen", "--hide-pointer", "--borderless", "--auto-zoom", IMAGE_PATH])
     else:
-         print(f"{os_type} not supported.")
+        print(f"{os_type} not supported.")
     
 
 def fetch_and_save_image():
     try:
         print("Fetching latest image...")
-        response = requests.get(SERVER_URL, timeout=10)
+
+        # Add API key to the headers
+        headers = {"x-api-key": API_KEY}
+
+        # Send the request with the API key in the headers
+        response = requests.get(SERVER_URL, headers=headers, timeout=10)
         response.raise_for_status()
 
         if os.path.exists(IMAGE_PATH):
@@ -61,4 +71,4 @@ def fetch_and_save_image():
 first_display_image()
 while True:
     fetch_and_save_image()
-    time.sleep(10)  
+    time.sleep(10)
