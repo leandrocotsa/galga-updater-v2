@@ -1,11 +1,11 @@
 # Galga Updater v2
 
 
-This is the second iteration on my project that serves to give my sister updates about her dog that I look over when she's working. My sister keeps asking me almost hourly about how is her dog doing, so I built this so she doesn't need to ask.
+This is the second iteration of my project, designed to keep my sister updated about her dog while I'm taking care of her during my sister’s work hours. She constantly asks me—almost every hour—how her dog is doing, so I built this to save her from needing to ask.
 
-The purpose of this project is to remotely being able to send and display a canvas with photos and/or text. With this project I'm able to send her visual updates of how is Galga (her dog).
+The goal of this project is to remotely send and display a canvas with photos and/or text. With this setup, I can send her visual updates on how Galga (her dog) is doing.
 
-This project can also be used to send remote messages to your loved ones, it's a cool thing to have in the desk. It's build to work over the internet, so you can send messages from anywhere, as long as there is an internet connection.
+This project can also be used to send remote messages to loved ones. It’s a cool little device to have on a desk! It’s built to work over the internet, allowing you to send messages from anywhere as long as there's an internet connection.
 
 ## Setup
 
@@ -18,6 +18,7 @@ This project can also be used to send remote messages to your loved ones, it's a
 ## How to run
 ### Server side
 The server side of this project is essentially composed of a node app that serves the html form in which the user can send the image updates and has the endpoints to update the latest image and fetch the latest image. 
+
 To host your Node app you can use free a free tier from cloud platoforms like [Render](https://render.com/), as it is enough for this purpose, and you should deploy the app inside the /server directory.
 Make sure you deploy it with these environment variables filled:
 
