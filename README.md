@@ -38,6 +38,7 @@ Then you can run the application:
 python ./galga-client.py
 ```
 The application will fetch the images from the node app and display them in the screen. It will periodically check for new images (every 5 minutes).
+
 Additionally, if you want to make this to run everytime you turn on the client device you can create a system service for that purpose. For more info on that check this tutorial: [link](https://hackernoon.com/how-to-run-scripts-on-boot-in-linux-using-systemd)
 
    [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
