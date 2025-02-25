@@ -7,7 +7,9 @@ require('dotenv').config(); // Load environment variables
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 const uploadDir = 'uploads/';
 const filePath = path.join(uploadDir, 'latest-image.jpg');
@@ -49,7 +51,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 app.get('/form', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    //res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.render('index', { apiBaseUrl: process.env.API_BASE_URL || 'http://localhost:3000' });
 });
 
 // Protect these endpoints with the API key middleware

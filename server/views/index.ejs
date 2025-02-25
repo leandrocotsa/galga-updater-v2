@@ -141,6 +141,10 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
     <script>
+
+        const apiBaseUrl = "<%= apiBaseUrl %>";  // Inject apiBaseUrl from server to JS
+
+
         const canvas = new fabric.Canvas('canvas', {
             backgroundColor: 'white'
         });
@@ -220,7 +224,7 @@
                     statusMessage.textContent = '⏳ Sending image...';
                     statusMessage.style.color = 'yellow';
 
-                    fetch('https://galga-updater-v2.onrender.com/send-image', {
+                    fetch(`${apiBaseUrl}/send-image`, {
                         method: 'POST',
                         body: formData,
                         headers: {
@@ -282,7 +286,7 @@
             statusMessage.textContent = '⏳ Fetching latest image...';
             statusMessage.style.color = 'yellow';
 
-            fetch('https://galga-updater-v2.onrender.com/latest-image', {
+            fetch(`${apiBaseUrl}/latest-image`, {
                 method: 'GET',
                 headers: {
                     'x-api-key': apiKey
