@@ -17,9 +17,9 @@ This project can also be used to send remote messages to loved ones. It’s a co
 
 ## How to run
 ### Server side
-The server side of this project is essentially composed of a node app that serves the html form in which the user can send the image updates and has the endpoints to update the latest image and fetch the latest image. 
+The server side of this project is essentially composed of a node app that serves the html form through which the user can send the image updates. The app also exposes the endpoints to update the latest image and fetch the latest image. 
 
-To host your Node app you can use free a free tier from cloud platoforms like [Render](https://render.com/), as it is enough for this purpose, and you should deploy the app inside the /server directory.
+To host your Node app you can use a free tier from cloud platforms like [Render](https://render.com/), as it is enough for this purpose, and you should deploy the app inside the /server directory.
 Make sure you deploy it with these environment variables filled:
 
 | Env Variable | Purpose |
@@ -37,7 +37,7 @@ Then you can run the application:
 ```sh
 python ./galga-client.py
 ```
-
+The application will fetch the images from the node app and display them in the screen. It will periodically check for new images (every 5 minutes).
 Additionally, if you want to make this to run everytime you turn on the client device you can create a system service for that purpose. For more info on that check this tutorial: [link](https://hackernoon.com/how-to-run-scripts-on-boot-in-linux-using-systemd)
 
    [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
