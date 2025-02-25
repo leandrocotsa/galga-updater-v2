@@ -12,7 +12,7 @@ This project can also be used to send remote messages to your loved ones, it's a
 ### Material I used
 
 - Raspberry Pi Zero 2w
-- 5inch Display for Raspberry Pi, 800×480, DPI Interface (this one: https://www.waveshare.com/5inch-lcd-for-pi.htm?amazon)
+- 5inch Display for Raspberry Pi, DPI Interface (this one: https://www.waveshare.com/5inch-lcd-for-pi.htm?amazon)
 - 3D printed frame (link to the stl file)
 
 ## How to run
