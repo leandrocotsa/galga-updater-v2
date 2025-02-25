@@ -5,11 +5,11 @@ import hashlib
 import platform
 import subprocess
 
-SERVER_URL = "https://galga-updater-v2.onrender.com/latest-image"
 IMAGE_PATH = "./latest-image.jpg" 
 
 # Fetch API key from the system environment variable
 API_KEY = os.getenv("API_KEY")
+SERVER_URL = os.getenv("SERVER_URL")
 
 if not API_KEY:
     raise ValueError("API_KEY environment variable is not set.")
