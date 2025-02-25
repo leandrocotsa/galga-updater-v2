@@ -7,13 +7,13 @@ require('dotenv').config(); // Load environment variables
 
 const app = express();
 
-//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 const uploadDir = 'uploads/';
 const filePath = path.join(uploadDir, 'latest-image.jpg');
-const defaultImgPath = path.join(__dirname, 'public/imgs', 'default-img.jpg');
+const defaultImgPath = path.join(__dirname, 'uploads', 'default-img.jpg');
 
 // Ensure the uploads directory exists
 if (!fs.existsSync(uploadDir)) {
