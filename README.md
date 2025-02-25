@@ -19,7 +19,7 @@ This project can also be used to send remote messages to loved ones. It’s a co
 ### Server side
 The server side of this project is essentially composed of a node app that serves the html form through which the user can send the image updates. The app also exposes the endpoints to update the latest image and fetch the latest image. 
 
-To host your Node app you can use a free tier from cloud platforms like [Render](https://render.com/), as it is enough for this purpose, and you should deploy the app inside the /server directory.
+To host your Node app you can use a free tier from cloud platforms like [Render](https://render.com/), as it is enough for this purpose, and you should deploy the app inside the `/server` directory.
 Make sure you deploy it with these environment variables filled:
 
 | Env Variable | Purpose |
