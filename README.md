@@ -33,6 +33,13 @@ The client is the device that will display the images. For this I've the Raspber
 ```sh
 ./setup_dependecies.sh
 ```
+You also need to set a couple environment variables on your device:
+
+| Env Variable | Purpose |
+| ------ | ------ |
+| SERVER_URL | The url in which your node app is deployed |
+| API_KEY | The Api Key for authenticating the fetching of the latest image |
+
 Then you can run the application:
 ```sh
 python ./galga-client.py
