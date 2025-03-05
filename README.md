@@ -69,7 +69,7 @@ Then you can run the application:
 ```sh
 python ./galga-client.py
 ```
-The application will fetch the images from the node app and display them in the screen. It will periodically check for new images (every 5 minutes).
+The application will fetch the images from the node app and display them in the screen. It will periodically check for new images (every 10m seconds, but you can change the periodicity by changing the value of `FETCH_PERIODICITY` inside `galga-client.py`).
 
 <p align="center">
   <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/preview.jpg?raw=true" width="700" />
