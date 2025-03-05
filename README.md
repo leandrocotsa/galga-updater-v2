@@ -4,7 +4,7 @@
   <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/the-frame.jpg?raw=true" width="700" />
 </p>
 
-This is the second iteration of my project, designed to keep my sister updated about her dog while I'm taking care of her during my sister’s work hours. She constantly asks me—almost every hour—how her dog is doing, so I built this to save her from needing to ask.
+This is the second iteration of this project, designed to keep my sister updated about her dog while I'm taking care of her during my sister’s work hours. She constantly asks me—almost every hour—how her dog is doing, so I built this to save her from needing to ask.
 
 The goal of this project is to remotely send and display a canvas with photos and/or text. With this setup, I can send her visual updates on how Galga (her dog) is doing.
 
@@ -45,7 +45,7 @@ To run the app locally just go inside the `/server` directory and run:
 npm install
 node ./app.js
 ```
-Then you cann access the form on `localhost:3000`.
+Then you can access the form via `localhost:3000`.
 
 <p align="center">
   <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/webpage.jpg?raw=true" />
@@ -53,7 +53,7 @@ Then you cann access the form on `localhost:3000`.
 
 
 ### Client side
-The client is the device that will display the images. For this I've the Raspberry Pi Zero attached to a display. All the dependencies needed to run the client on Linux can be installed by running the created script for this purpose insside the `/client` directory:
+The client is the device that will display the images. For this I used the Raspberry Pi Zero attached to a display. All the dependencies needed to run the client on Linux can be installed by running the created script for this purpose inside the `/client` directory:
 
 ```sh
 ./setup_dependecies.sh
@@ -69,14 +69,13 @@ Then you can run the application:
 ```sh
 python ./galga-client.py
 ```
+The application will fetch the images from the node app and display them in the screen. It will periodically check for new images (every 5 minutes).
 
 <p align="center">
   <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/preview.jpg?raw=true" width="700" />
 </p>
 
-The application will fetch the images from the node app and display them in the screen. It will periodically check for new images (every 5 minutes).
-
-Additionally, if you want to make this to run everytime you turn on the client device you can create a system service for that purpose. For more info on that check this tutorial: [link](https://hackernoon.com/how-to-run-scripts-on-boot-in-linux-using-systemd)
+Additionally, if you want to make this run everytime you turn on the client device you can create a system service for that purpose. For more info on that check this tutorial: [link](https://hackernoon.com/how-to-run-scripts-on-boot-in-linux-using-systemd)
 
    [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
    [PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
