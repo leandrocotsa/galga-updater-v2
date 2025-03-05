@@ -1,5 +1,8 @@
 # Galga Updater v2
 
+<p align="center">
+  <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/the-frame.jpg?raw=true" width="700" />
+</p>
 
 This is the second iteration of my project, designed to keep my sister updated about her dog while I'm taking care of her during my sister’s work hours. She constantly asks me—almost every hour—how her dog is doing, so I built this to save her from needing to ask.
 
@@ -11,9 +14,18 @@ This project can also be used to send remote messages to loved ones. It’s a co
 
 ### Material I used
 
+
+<p align="center">
+  <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/components.jpg?raw=true" width="700" />
+</p>
+
 - Raspberry Pi Zero 2w
 - 5inch Display for Raspberry Pi, DPI Interface (this one: https://www.waveshare.com/5inch-lcd-for-pi.htm?amazon)
-- 3D printed frame (link to the stl file)
+- 3D printed frame (available inside the `/3d-models` directory of this repo)
+
+<p align="center">
+  <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/wiring.jpg?raw=true" width="700" />
+</p>
 
 ## How to run
 ### Server side
@@ -44,6 +56,7 @@ Then you can run the application:
 ```sh
 python ./galga-client.py
 ```
+
 The application will fetch the images from the node app and display them in the screen. It will periodically check for new images (every 5 minutes).
 
 Additionally, if you want to make this to run everytime you turn on the client device you can create a system service for that purpose. For more info on that check this tutorial: [link](https://hackernoon.com/how-to-run-scripts-on-boot-in-linux-using-systemd)
