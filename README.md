@@ -39,8 +39,21 @@ Make sure you deploy it with these environment variables filled:
 | API_BASE_URL | The url in which your node app is deployed (to be injected in the HTML page) |
 | API_KEY | The Api Key for authenticating the upload image request (to be filled in the html form and used by the client to authenticate) |
 
+To run the app locally just go inside the `/server` directory and run:
+
+```sh
+npm install
+node ./app.js
+```
+Then you cann access the form on `localhost:3000`.
+
+<p align="center">
+  <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/webpage.jpg?raw=true" />
+</p>
+
+
 ### Client side
-The client is the device that will display the images. For this I've the Raspberry Pi Zero attached to a display. All the dependencies needed to run the client on Linux can be installed by running the created script for this purpose:
+The client is the device that will display the images. For this I've the Raspberry Pi Zero attached to a display. All the dependencies needed to run the client on Linux can be installed by running the created script for this purpose insside the `/client` directory:
 
 ```sh
 ./setup_dependecies.sh
@@ -56,6 +69,10 @@ Then you can run the application:
 ```sh
 python ./galga-client.py
 ```
+
+<p align="center">
+  <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/preview.jpg?raw=true" width="700" />
+</p>
 
 The application will fetch the images from the node app and display them in the screen. It will periodically check for new images (every 5 minutes).
 
