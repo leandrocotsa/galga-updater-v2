@@ -6,6 +6,7 @@ import platform
 import subprocess
 
 IMAGE_PATH = "./latest-image.jpg" 
+FETCH_PERIODICITY = 10 # In seconds
 
 # Fetch API key from the system environment variable
 API_KEY = os.getenv("API_KEY")
@@ -67,8 +68,8 @@ def fetch_and_save_image():
     except Exception as e:
         print(f"Error processing image: {e}")
 
-# Run every 10 seconds
+
 first_display_image()
 while True:
     fetch_and_save_image()
-    time.sleep(10)
+    time.sleep(FETCH_PERIODICITY)
