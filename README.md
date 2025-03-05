@@ -16,7 +16,7 @@ This project can also be used to send remote messages to loved ones. It’s a co
 
 
 <p align="center">
-  <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/components.jpg?raw=true" width="700" />
+  <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/components.jpg?raw=true" width="500" />
 </p>
 
 - Raspberry Pi Zero 2w
@@ -24,7 +24,7 @@ This project can also be used to send remote messages to loved ones. It’s a co
 - 3D printed frame (available inside the `/3d-models` directory of this repo)
 
 <p align="center">
-  <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/wiring.jpg?raw=true" width="700" />
+  <img src="https://github.com/leandrocotsa/galga-updater-v2/blob/main/imgs/wiring.jpg?raw=true" width="500" />
 </p>
 
 ## How to run
